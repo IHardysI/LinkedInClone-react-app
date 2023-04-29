@@ -1,3 +1,5 @@
+@import url(./Components/common/Loader/Loader.scss);
+
 :root {
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
   font-family: 'Montserrat', sans-serif;
@@ -6,7 +8,7 @@
 
   color-scheme: light dark;
   color: #212121;
-  background-color:#fff;
+  background-color: #f3f2ef;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -21,6 +23,7 @@ ul,ol,li{list-style:none}
 img{vertical-align:top}
 h1,h2,h3,h4,h5,h6{font-weight:inherit;font-size:inherit}
 html,body{height:100%;line-height:1}
+body {background-color: white;}
 
 @media(max-width: 1200px) {
   [class*="__container"] {
