@@ -1,13 +1,21 @@
 .postStatus {
     margin: 1rem 0;
 
+
     .postStatus__container {
         display: flex;
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+        @media(max-width:767.98px){
+            width: 100%;
+            max-width: 600px;
+            padding: 0;
+        }
 
         .postStatus__block {
             width: 100%;
-            aspect-ratio: 576 / 118;
             max-width: 576px;
             background-color: white;
             display: flex;
@@ -16,14 +24,18 @@
             align-items: center;
             border-radius: 0.8rem;
             box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.08);
+            padding: 8px 0;
+            @media(max-width:578px) {
+                border-radius: 0;
+            }
 
             .postStatus__share-button {
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 width: 100%;
-                height: 41.37%;
                 gap: 0.5rem;
+                height: 52px;
 
                 .postStatus__icon {
                     cursor: pointer;
@@ -57,17 +69,18 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-around;
-                height: 44.06%;
                 width: 100%;
+                flex-wrap: wrap;
+                margin-top: 4px;
 
                 .postStatus__share {
                     display: flex;
                     align-items: center;
                     cursor: pointer;
-                    padding: 0 0.5rem;
                     background-color: transparent;
                     transition-duration: 156ms;
                     border-radius: 0.4rem;
+                    padding: 0 8px;
                     span {
                         margin-left: 0.5rem;
                         font-weight: 600;
@@ -82,5 +95,9 @@
                 }
             }
         }
+    }
+
+    .postStatus__posts {
+        margin-top: 1.3rem;
     }
 }

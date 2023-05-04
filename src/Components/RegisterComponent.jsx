@@ -15,6 +15,7 @@ export default function RegisterComponent(props) {
         try{
             let res = await RegisterAPI(credentials.email, credentials.password)
             toast.success('You created a new account')
+            localStorage.setItem('userEmail',res.user.email)
             navigate('/home')
         } catch(error) {
             console.log(error)

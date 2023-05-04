@@ -1,42 +1,30 @@
-import { Button, Modal } from 'antd';
-import { useState } from 'react';
+import { Modal, Button } from 'antd';
 import './Modal.scss';
-const ModalComponent = () => {
-    const [modal1Open, setModal1Open] = useState(false);
-    const [modal2Open, setModal2Open] = useState(false);
+
+
+
+const ModalComponent = ({modalOpen, setModalOpen, setStatus, status, sendStatus}) => {
     return (
         <>
-        <Button type="primary" onClick={() => setModal1Open(true)}>
-            Display a modal dialog at 20px to Top
-        </Button>
         <Modal
-            title="20px to Top"
-            style={{
-            top: 20,
-            }}
-            open={modal1Open}
-            onOk={() => setModal1Open(false)}
-            onCancel={() => setModal1Open(false)}
-        >
-            <p>some contents...</p>
-            <p>some contents...</p>
-            <p>some contents...</p>
-        </Modal>
-        <br />
-        <br />
-        <Button type="primary" onClick={() => setModal2Open(true)}>
-            Vertically centered modal dialog
-        </Button>
-        <Modal
-            title="Vertically centered modal dialog"
+            title="Create a post"
             centered
-            open={modal2Open}
-            onOk={() => setModal2Open(false)}
-            onCancel={() => setModal2Open(false)}
+            open={modalOpen}
+            onOk={() => setModalOpen(false)}
+            onCancel={() => setModalOpen(false)}
+            footer={[
+                <Button onClick={sendStatus} key="submit" type="primary" disabled={status.length > 0 ? false : true}>
+                    Post
+                </Button>,
+                ]}
         >
-            <p>some contents...</p>
-            <p>some contents...</p>
-            <p>some contents...</p>
+            <input 
+                className='modal__input' 
+                type="text" 
+                placeholder='What do you want to talk about?'
+                onChange={(event) => setStatus(event.target.value)}
+                value={status}
+                />
         </Modal>
         </>
     );
