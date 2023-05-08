@@ -7,7 +7,7 @@ export default function PostsCard({posts}) {
             <div className="postCard__info">
                 <img src="" alt="" className="postCard__img" />
                 <div className="postCard__info-text">
-                    <p className="postCard__user">{posts.userEmail}</p>
+                    <p className="postCard__user">{posts.userName}</p>
                     <span className="postCard__timeStamp">{posts.timeStamp}</span>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { LoginAPI, RegisterAPI, GoogleSignInAPI } from "../api/AuthAPI";
+import { postUserData } from "../api/StoreAPI";
 import { useNavigate } from "react-router-dom";
 import '../Sass/RegisterComponent.scss';
 import LinkedinLogo from '../assets/linkedinLogo.png'
@@ -11,12 +12,13 @@ export default function RegisterComponent(props) {
     const [showPassword, setShowPassword] = useState(false)
 
     let navigate = useNavigate()
-    const login = async () => {
+    const register = async () => {
         try{
             let res = await RegisterAPI(credentials.email, credentials.password)
             toast.success('You created a new account')
-            localStorage.setItem('userEmail',res.user.email)
+            postUserData(credentials)
             navigate('/home')
+            localStorage.setItem('userEmail',res.user.email)
         } catch(error) {
             console.log(error)
             toast.error('This account already exists')
@@ -41,6 +43,12 @@ export default function RegisterComponent(props) {
                 <div className="register__box">
                     <div className="register__form form">
                         <input 
+                            type="text" 
+                            className="form__user" 
+                            placeholder="Username" 
+                            onChange={(event) => setCredentials({ ...credentials, user: event.target.value })
+                        } />
+                        <input 
                             type="email" 
                             className="form__email" 
                             placeholder="Email" 
@@ -57,7 +65,7 @@ export default function RegisterComponent(props) {
                                 {showPassword ? "hide" : "show"}
                             </span>
                         </div>
-                        <button onClick={login} className="form__btn">
+                        <button onClick={register} className="form__btn">
                             Agree & Join
                         </button>
                     </div>

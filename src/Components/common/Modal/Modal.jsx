@@ -1,9 +1,20 @@
+import { useState } from 'react';
 import { Modal, Button } from 'antd';
 import './Modal.scss';
 
 
 
 const ModalComponent = ({modalOpen, setModalOpen, setStatus, status, sendStatus}) => {
+    const [state, setState] = useState('')
+
+    const handleChange = (e) => {
+        setState(e.target.value)
+        e.target.style.height = 'auto'
+        e.target.style.height = `${e.target.scrollHeight}px`
+    }
+    
+    
+
     return (
         <>
         <Modal
@@ -18,7 +29,9 @@ const ModalComponent = ({modalOpen, setModalOpen, setStatus, status, sendStatus}
                 </Button>,
                 ]}
         >
-            <input 
+            <textarea
+                onInput={handleChange}
+                style={{ height: 'auto', minHeight: '100px' }}
                 className='modal__input' 
                 type="text" 
                 placeholder='What do you want to talk about?'

@@ -1,0 +1,17 @@
+.profileCard {
+
+    .profileCard__container {
+        padding-top: 22px;
+        display: flex;
+        justify-content: center;
+
+        .profileCard__content {
+            width: 100%;
+            background-color: white;
+            border-radius: 0.8rem;
+            box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.08);
+            padding: 8px 8px;
+            height: 30vh;
+        }
+    }
+}

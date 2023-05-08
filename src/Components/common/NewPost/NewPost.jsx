@@ -4,9 +4,10 @@ import ModalComponent from "../Modal/Modal";
 import { postStatus, getStatus } from "../../../api/StoreAPI";
 import PostsCard from "../PostsCard/PostsCard";
 import getTime from '../../../helper/GetTimeStamp'
+import { getUniqueID } from "../../../helper/GetUniqueId";
 
-export default function PostStatus() {
-    let userEmail = localStorage.getItem('userEmail')
+export default function PostStatus({currentUser}) {
+    
     const [modalOpen, setModalOpen] = useState(false)
     const [status, setStatus] = useState('')
     const [allStatuses, setAllStatuses] = useState([])
@@ -14,7 +15,9 @@ export default function PostStatus() {
         let object = {
             status: status,
             timeStamp: getTime('LLL'),
-            userEmail: userEmail,
+            userEmail: currentUser.email,
+            userName: currentUser.user,
+            postID: getUniqueID(),
         }
         await postStatus(object)
         await setModalOpen(false)
