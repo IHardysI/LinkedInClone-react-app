@@ -32,13 +32,67 @@
                     height: 250px;
                     width: 100%;
                     position: relative;
+                    @media(max-width:767.98px) {
+                        height: 150px;
+                    }
 
                     .profileCard__back {
                         object-fit: cover;
                         position: absolute;
-                        height: 201px;
+                        aspect-ratio: 804 / 201;
+                        height: 80%;
+                        width: 100%;
                         align-self: flex-start;
                         z-index: 1;
+                        border-radius: 0.8rem 0.8rem 0 0;
+                        @media(max-width:991.98px) {
+                            border-radius: 0;
+                        }
+                        @media(max-width:767.98px) {
+                            height: 90px;
+                        }
+                    }
+
+                    .profileCard__edit-back {
+                        position: absolute;
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        border-radius: 20px;
+                        background-color: white;
+                        transition-duration: 156ms;
+                        border: 1px solid white;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition-duration: 156ms;
+                        
+                        top: 15px;
+                        right: 15px;
+                        z-index: 99;
+                        &:hover {
+                            width: 1.6rem;
+                            height: 1.6rem;
+                            box-shadow: 0 0 0 0.5px white;
+                            border-color: white;
+                            
+                            svg {
+                                fill: #0073b1;
+                            }
+                        }
+                        @media(max-width:767.98px) {
+                            width: 1.3rem;
+                            height: 1.3rem;
+
+                            svg {
+                                width: 13px;
+                                height: 13px;
+                            }
+                            &:hover {
+                                width: 1.4rem;
+                                height: 1.4rem;
+                            }
+                        }
                     }
 
                     .profileCard__userImg-edit-block {
@@ -47,6 +101,9 @@
                         justify-content: space-between;
                         align-items: flex-end;
                         width: 100%;
+                        @media(max-width:767.98px) {
+                            padding: 0 15px;
+                        }
 
                         .profileCard__edit {
                             position: relative;
@@ -71,6 +128,11 @@
                                     font-weight: 600;
                                     font-size: 0.82rem;
                                 }
+                                @media(max-width:767.98px) {
+                                    width: 2.5rem;
+                                    height: 1.3rem;
+                                    font-size: 0.6rem;
+                                }
                             }
                         }
             
@@ -82,6 +144,10 @@
                             object-fit: cover;
                             border: 5px solid white;
                             border-radius: 50%;
+                            @media(max-width:767.98px) {
+                                height: 100px;
+                                width: 100px;
+                            }
                         }
                     }
 
@@ -89,7 +155,10 @@
                 }
 
                 .profileCard__downBlock {
-                    padding: 0 32px 32px;
+                    padding: 0 32px 1.2rem;
+                    @media(max-width:767.98px) {
+                        padding: 0 15px;
+                    }
 
                     .profileCard__user-line-college {
                         margin-top: 0.5rem;
@@ -98,26 +167,54 @@
                         justify-content: space-between;
         
                         .profileCard__user-line {
-        
+                            width: 300px;
+                            @media(max-width:767.98px) {
+                                width: auto;
+                            }
+
                             .profileCard__user {
                                 font-size: 24px;
                                 line-height: 30px;
                                 font-weight: 600;
+                                @media(max-width:767.98px) {
+                                    font-size: 19px;
+                                }
                             }
                 
                             .profileCard__title {
                                 font-size: 1rem;
                                 line-height: 20px;
                                 font-weight: 400;
+                                @media(max-width:767.98px) {
+                                    font-size: 12px;
+                                }
+                            }
+                        }
+
+                        .profileCard__down-right {
+                            .profileCard__company {
+                                margin-bottom: 0.5rem;
+                                font-size: 14px;
+                                line-height: 18px;
+                                font-weight: 600;
+                                @media(max-width:767.98px) {
+                                    font-size: 10px;
+                                    margin-bottom: 0.2rem;
+                                }
+                            }
+
+                            .profileCard__college {
+                                font-size: 14px;
+                                line-height: 18px;
+                                font-weight: 600;
+                                margin-right: 3rem;
+                                @media(max-width:767.98px) {
+                                    font-size: 10px;
+                                    margin: 0;
+                                }
                             }
                         }
         
-                        .profileCard__college {
-                            font-size: 14px;
-                            line-height: 18px;
-                            font-weight: 600;
-                            margin-right: 3rem;
-                        }
                     }
         
                     .profileCard__location {
@@ -126,6 +223,9 @@
                         font-weight: 400;
                         color: gray;
                         margin-top: 0.5rem;
+                        @media(max-width:767.98px) {
+                            font-size: 9px;
+                        }
                     }
                 }
     

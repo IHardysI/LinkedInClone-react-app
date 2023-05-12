@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import '../Sass/ProfileComponent.scss'
 import ProfileCard from "./common/ProfileCard/ProfileCard";
 import ProfileEdit from "./common/ProfileEdit/ProfileEdit";
+import NewPost from './common/NewPost/NewPost'
 
 
 export default function ProfileComponent({ currentUser }) {
@@ -12,7 +13,14 @@ export default function ProfileComponent({ currentUser }) {
     }
     return (
         <div className='profile-component'>
-            {editState ? <ProfileCard  currentUser={currentUser} handleEdit={handleEdit}/> : <ProfileEdit handleEdit={handleEdit} currentUser={currentUser} />}
+            {editState
+                ?
+                    <>
+                        <ProfileCard  currentUser={currentUser} handleEdit={handleEdit}/>
+                        <NewPost />
+                    </>
+                : 
+                    <ProfileEdit handleEdit={handleEdit} currentUser={currentUser} />}
         </div>
     )
 }
