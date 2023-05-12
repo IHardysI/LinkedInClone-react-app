@@ -30,7 +30,7 @@ function handleUserIcon() {
     popupCard.classList.toggle('active')
 }
 
-export default function Topbar() {
+export default function Topbar({ currentUser }) {
 
 
     function inputFocus() {
@@ -94,7 +94,7 @@ export default function Topbar() {
                     <span className="topbar__bar"></span>
                     <span className="topbar__bar"></span>
                 </div>
-                    <ProfilePopup goToRoute={goToRoute} />
+                    <ProfilePopup goToRoute={goToRoute} currentUser={currentUser} />
             </div>
 
             
