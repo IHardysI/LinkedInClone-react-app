@@ -17,7 +17,6 @@ export default function ProfileComponent({ currentUser }) {
                 ?
                     <>
                         <ProfileCard  currentUser={currentUser} handleEdit={handleEdit}/>
-                        <NewPost />
                     </>
                 : 
                     <ProfileEdit handleEdit={handleEdit} currentUser={currentUser} />}
