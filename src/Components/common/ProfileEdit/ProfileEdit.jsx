@@ -14,6 +14,7 @@ export default function ProfileEdit({ handleEdit, currentUser }) {
             await editProfile(currentUser?.userID, editInputs);
             await handleEdit()
         }
+        console.log(currentUser);
     
     return(
         <div className="profileEdit">

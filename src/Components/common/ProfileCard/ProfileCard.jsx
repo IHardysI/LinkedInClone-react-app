@@ -1,11 +1,65 @@
-import React, { useState } from "react";
+import React, {useState, useMemo} from "react";
 import './ProfileCard.scss'
 import testImg from '../../../assets/profile.jpg'
 import testBack from '../../../assets/endBack-v1.png'
+import PostsCard from "../PostsCard/PostsCard";
+import { postStatus, getStatus } from "../../../api/StoreAPI";
+import { getSingleStatus, getSingleUser } from "../../../api/StoreAPI";
+import { useLocation } from "react-router-dom";
 
-export default function ProfileCard({ currentUser, handleEdit }) {
+
+
+export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
+    const [allStatuses, setAllStatuses] = useState([])
+    const [currentProfile, setCurrentProfile] = useState({})
+    let location = useLocation()
+
+    useMemo(() => {
+        if (location?.state?.id) {
+            getSingleStatus(setAllStatuses, location?.state?.id)
+        } else {
+            getStatus(setAllStatuses)
+        }
+
+        if (location?.state?.email) {
+            getSingleUser(setCurrentProfile, location?.state?.email)
+        }
+    }, [])
+    
+
+
+    let statuses
+
+    if (Object.values(currentProfile).length === 0) {
+        statuses = <>
+                        {allStatuses
+                        .filter((item) => {
+                            return item.userEmail === currentUser.email
+                        })
+                        .map((posts) => {
+                            return (
+                                <PostsCard posts={posts} key={posts.postID} />
+                            )
+                        })
+                        }
+                    </>
+    } else {
+        statuses = <>
+                    {allStatuses
+                    .map((posts) => {
+                        return (
+                            <PostsCard posts={posts} key={posts.postID} />
+                        )
+                    })}
+                </>
+    }
+
+    console.log(Object.values(currentProfile).length);
+    
 
     
+
+
 
     return (
         <div className="profileCard">
@@ -21,7 +75,7 @@ export default function ProfileCard({ currentUser, handleEdit }) {
                                 </svg>
                             </button>
                             <div className="profileCard__userImg-edit-block">
-                                <img src={testImg} alt="img" className="profileCard__userImg" />
+                                <img src={testImg} alt="img" className="profileCard__userImg" onClick={() => {goToRoute('/home')}}  />
                                 <div className="profileCard__edit">
                                     <button className="profileCard__edit-btn" onClick={handleEdit}>Edit</button>
                                 </div>
@@ -33,23 +87,47 @@ export default function ProfileCard({ currentUser, handleEdit }) {
                         <div className="profileCard__downBlock">
                             <div className="profileCard__user-line-college">
                                 <div className="profileCard__user-line">
-                                    <p className="profileCard__user">{currentUser.user}</p>
-                                    <p className="profileCard__title">{currentUser.headline}</p>
+                                    <p className="profileCard__user">
+                                        {Object.values(currentProfile).length === 0
+                                            ? currentUser.user
+                                            : currentProfile?.user}
+                                    </p>
+                                    <p className="profileCard__title">
+                                        {Object.values(currentProfile).length === 0
+                                            ? currentUser.headline
+                                            : currentProfile?.headline}
+                                    </p>
                                 </div>
                                 <div className="profileCard__down-right">
-                                    <p className="profileCard__company">{currentUser.company}</p>
-                                    <p className="profileCard__college">{currentUser.college}</p>
+                                    <p className="profileCard__company">
+                                        {Object.values(currentProfile).length === 0
+                                            ? currentUser.company
+                                            : currentProfile?.company}
+                                    </p>
+                                    <p className="profileCard__college">
+                                        {Object.values(currentProfile).length === 0
+                                            ? currentUser.college
+                                            : currentProfile?.college}
+                                    </p>
                                 </div>
                             </div>
                             <p className="profileCard__location">
-                                {currentUser.location}
+                                {Object.values(currentProfile).length === 0
+                                    ? currentUser.location
+                                    : currentProfile?.location}
                             </p>
                         </div>
 
 
+
                     </div>
+
+                </div>
+                <div className="profileCard__posts">
+                    {statuses}
                 </div>
             </div>
+            
         </div>
     )
 }

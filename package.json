@@ -2,8 +2,8 @@
   "name": "linkedin-react-app",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://IHardysI.github.io/LinkedInClone-react-app",
   "type": "module",
+  "homepage": "https://IHardysI.github.io/LinkedInClone-react-app",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",

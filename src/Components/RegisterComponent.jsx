@@ -6,17 +6,27 @@ import '../Sass/RegisterComponent.scss';
 import LinkedinLogo from '../assets/linkedinLogo.png'
 import { toast } from "react-toastify";
 import GoogleButton from 'react-google-button'
+import { getUniqueID } from "../helper/GetUniqueId";
 
 export default function RegisterComponent(props) {
     const [credentials, setCredentials] = useState({})
     const [showPassword, setShowPassword] = useState(false)
 
     let navigate = useNavigate()
-    const register = async () => {
+
+    
+    const register = async (event) => {
+        event.preventDefault()
         try{
             let res = await RegisterAPI(credentials.email, credentials.password)
             toast.success('You created a new account')
-            postUserData(credentials)
+            const newCredentials = {
+                ...credentials,
+                userID: getUniqueID(),
+            };
+            setCredentials(newCredentials);
+            postUserData(newCredentials)
+            console.log(credentials);
             navigate('/home')
             localStorage.setItem('userEmail',res.user.email)
         } catch(error) {
@@ -24,6 +34,7 @@ export default function RegisterComponent(props) {
             toast.error('This account already exists')
         }
     }
+
 
 
     const googleSignIn = () => {

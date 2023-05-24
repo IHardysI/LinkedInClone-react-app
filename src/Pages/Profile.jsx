@@ -8,11 +8,14 @@ import Loader from "../Components/common/Loader/Loader";
 export default function Profile({ currentUser }) {
     let [loading, setLoading] = useState(true);
     let navigate = useNavigate()
+    const goToRoute = (route) => {
+        navigate(route)
+    }
     
     useEffect(() => {
         onAuthStateChanged(auth, (res) => {
             if(!res?.accessToken){
-                navigate('/')
+                goToRoute('/')
             } else {
                 setLoading(false)
             }
@@ -20,6 +23,6 @@ export default function Profile({ currentUser }) {
     }, [])
     
     return (
-        loading ? <Loader /> : <ProfileComponent currentUser={currentUser} />
+        loading ? <Loader /> : <ProfileComponent currentUser={currentUser} goToRoute={goToRoute} />
     )
 }

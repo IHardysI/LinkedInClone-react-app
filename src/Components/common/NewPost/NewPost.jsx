@@ -19,6 +19,7 @@ export default function PostStatus({currentUser}) {
             userEmail: currentUser.email,
             userName: currentUser.user,
             postID: getUniqueID(),
+            userID: currentUser.userID,
         }
         await postStatus(object)
         await setModalOpen(false)
@@ -72,7 +73,7 @@ export default function PostStatus({currentUser}) {
             <div className="postStatus__posts postStatus__container">
                 {allStatuses.map((posts) => {
                     return (
-                        <PostsCard posts={posts}/>
+                        <PostsCard posts={posts} currentUser={currentUser}/>
                     )
                 })}
             </div>

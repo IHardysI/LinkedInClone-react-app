@@ -4,6 +4,8 @@
         padding-top: 22px;
         display: flex;
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
         @media(max-width:991.98px) {
             padding: 0;
         }
@@ -137,6 +139,7 @@
                         }
             
                         .profileCard__userImg {
+                            cursor: pointer;
                             position: relative;
                             z-index: 100;
                             width: 152px;
@@ -232,6 +235,19 @@
     
             }
 
+        }
+
+        .profileCard__posts {
+            margin-top: 1.2rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-direction: column;
+            width: 804px;
+            @media(max-width:991.98px) {
+                width: 100%;
+                border-radius: 0;
+                box-shadow: none;
+            }
         }
     }
 }

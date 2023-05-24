@@ -1,6 +1,7 @@
 import { firestore } from "../firebaseConfig"
-import { addDoc, collection, onSnapshot, doc, updateDoc } from 'firebase/firestore'
+import { addDoc, collection, onSnapshot, doc, updateDoc, query, where } from 'firebase/firestore'
 import { toast } from "react-toastify"
+import { getUniqueID } from "../helper/GetUniqueId"
 
 let postsRef = collection(firestore, 'posts')
 let usersRef = collection(firestore, 'users')
@@ -26,6 +27,28 @@ export const getStatus = (setAllStatuses) => {
     })
 }
 
+export const getSingleStatus = (setAllStatuses, id) => {
+    const singlePostQuery = query(postsRef, where('userID', '==', id))
+    onSnapshot(singlePostQuery, (response) => {
+        setAllStatuses(
+            response.docs.map((docs) => {
+                return { ...docs.data(), id: docs.id }
+            })
+        )
+    })
+}
+
+export const getSingleUser = (setCurrentUser, email) => {
+    const singleUserQuery = query(usersRef, where('email', '==', email))
+    onSnapshot(singleUserQuery, (response) => {
+        setCurrentUser(
+            response.docs.map((docs) => {
+                return { ...docs.data(), id: docs.id }
+            })[0]
+        )
+    })
+}
+
 export const postUserData = (object) => {
     addDoc(usersRef, object)
     .then (() => {})
@@ -39,7 +62,7 @@ export const getCurrentUser = (setCurrentUser) => {
         setCurrentUser(
             response.docs
                 .map((docs) => {
-                    return { ...docs.data(), userID: docs.id }
+                    return { ...docs.data() }
         })
         .filter((item) => {
             return item.email === localStorage.getItem('userEmail')

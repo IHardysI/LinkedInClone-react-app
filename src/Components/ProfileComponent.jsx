@@ -5,7 +5,7 @@ import ProfileEdit from "./common/ProfileEdit/ProfileEdit";
 import NewPost from './common/NewPost/NewPost'
 
 
-export default function ProfileComponent({ currentUser }) {
+export default function ProfileComponent({ currentUser, goToRoute }) {
     const [editState, setEditState] = useState(true)
 
     const handleEdit = () => {
@@ -16,7 +16,7 @@ export default function ProfileComponent({ currentUser }) {
             {editState
                 ?
                     <>
-                        <ProfileCard  currentUser={currentUser} handleEdit={handleEdit}/>
+                        <ProfileCard  currentUser={currentUser} handleEdit={handleEdit} goToRoute={goToRoute}/>
                     </>
                 : 
                     <ProfileEdit handleEdit={handleEdit} currentUser={currentUser} />}
