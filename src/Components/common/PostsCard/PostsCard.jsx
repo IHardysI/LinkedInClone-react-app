@@ -2,8 +2,9 @@ import React from "react";
 import './PostsCard.scss'
 import { useNavigate } from "react-router-dom";
 
-export default function PostsCard({ posts }) {
+export default function PostsCard({ posts, currentUser }) {
     let navigate = useNavigate()
+
     return (
         <div className="postsCard">
             <div className="postCard__info" >

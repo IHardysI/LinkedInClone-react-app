@@ -53,8 +53,6 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                     })}
                 </>
     }
-
-    console.log(Object.values(currentProfile).length);
     
 
     
@@ -89,8 +87,8 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                                 <div className="profileCard__user-line">
                                     <p className="profileCard__user">
                                         {Object.values(currentProfile).length === 0
-                                            ? currentUser.user
-                                            : currentProfile?.user}
+                                            ? currentUser.name
+                                            : currentProfile?.name}
                                     </p>
                                     <p className="profileCard__title">
                                         {Object.values(currentProfile).length === 0

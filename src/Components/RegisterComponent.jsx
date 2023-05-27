@@ -20,12 +20,11 @@ export default function RegisterComponent(props) {
         try{
             let res = await RegisterAPI(credentials.email, credentials.password)
             toast.success('You created a new account')
-            const newCredentials = {
-                ...credentials,
+            postUserData({
                 userID: getUniqueID(),
-            };
-            setCredentials(newCredentials);
-            postUserData(newCredentials)
+                name: credentials.user,
+                email: credentials.email,
+            })
             console.log(credentials);
             navigate('/home')
             localStorage.setItem('userEmail',res.user.email)

@@ -15,11 +15,11 @@ export default function PostStatus({currentUser}) {
     const sendStatus = async () => {
         let object = {
             status: status,
-            timeStamp: getTime('LLL'),
+            timeStamp: getTime("LLL"),
             userEmail: currentUser.email,
-            userName: currentUser.user,
+            userName: currentUser.name,
             postID: getUniqueID(),
-            userID: currentUser.userID,
+            userID: currentUser.id,
         }
         await postStatus(object)
         await setModalOpen(false)
@@ -29,6 +29,7 @@ export default function PostStatus({currentUser}) {
     useMemo(() => {
         getStatus(setAllStatuses)
     }, [])
+
 
 
     return (
@@ -73,7 +74,7 @@ export default function PostStatus({currentUser}) {
             <div className="postStatus__posts postStatus__container">
                 {allStatuses.map((posts) => {
                     return (
-                        <PostsCard posts={posts} currentUser={currentUser}/>
+                        <PostsCard key={posts.id} posts={posts} currentUser={currentUser}/>
                     )
                 })}
             </div>

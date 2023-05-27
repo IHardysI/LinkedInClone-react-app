@@ -11,10 +11,10 @@ export default function ProfileEdit({ handleEdit, currentUser }) {
         }
 
         const updateProfileData = async () => {
-            await editProfile(currentUser?.userID, editInputs);
+            await editProfile(currentUser?.id, editInputs);
             await handleEdit()
         }
-        console.log(currentUser);
+
     
     return(
         <div className="profileEdit">
@@ -25,7 +25,7 @@ export default function ProfileEdit({ handleEdit, currentUser }) {
                     </button>
                     <div className="profileEdit__inputs">
                         <label htmlFor="name">Name</label>
-                        <input onChange={getInput} type="text" className="profileEdit__name profileEdit__input" name="user" />
+                        <input onChange={getInput} type="text" className="profileEdit__name profileEdit__input" name="name" />
 
                         <label htmlFor="headline">Headline</label>
                         <input onChange={getInput} type="text" className="profileEdit__headline profileEdit__input" name="headline" />

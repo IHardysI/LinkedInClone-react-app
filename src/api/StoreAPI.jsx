@@ -27,27 +27,27 @@ export const getStatus = (setAllStatuses) => {
     })
 }
 
-export const getSingleStatus = (setAllStatuses, id) => {
-    const singlePostQuery = query(postsRef, where('userID', '==', id))
+export const getSingleStatus = (setAllStatus, id) => {
+    const singlePostQuery = query(postsRef, where("userID", "==", id));
     onSnapshot(singlePostQuery, (response) => {
-        setAllStatuses(
-            response.docs.map((docs) => {
-                return { ...docs.data(), id: docs.id }
-            })
-        )
-    })
-}
+        setAllStatus(
+        response.docs.map((docs) => {
+            return { ...docs.data(), id: docs.id };
+        })
+        );
+    });
+};
 
 export const getSingleUser = (setCurrentUser, email) => {
-    const singleUserQuery = query(usersRef, where('email', '==', email))
+    const singleUserQuery = query(usersRef, where("email", "==", email));
     onSnapshot(singleUserQuery, (response) => {
         setCurrentUser(
-            response.docs.map((docs) => {
-                return { ...docs.data(), id: docs.id }
-            })[0]
-        )
-    })
-}
+        response.docs.map((docs) => {
+            return { ...docs.data(), id: docs.id };
+        })[0]
+        );
+    });
+};
 
 export const postUserData = (object) => {
     addDoc(usersRef, object)
@@ -59,20 +59,20 @@ export const postUserData = (object) => {
 
 export const getCurrentUser = (setCurrentUser) => {
     onSnapshot(usersRef, (response) => {
-        setCurrentUser(
-            response.docs
-                .map((docs) => {
-                    return { ...docs.data() }
+    setCurrentUser(
+        response.docs
+        .map((docs) => {
+        return { ...docs.data(), id: docs.id };
         })
         .filter((item) => {
-            return item.email === localStorage.getItem('userEmail')
-        })[0]);
+        return item.email === localStorage.getItem("userEmail")
+        })[0]
+    )
     })
 }
 
 export const editProfile = (userID, payLoad) => {
     let userToEdit = doc(usersRef, userID)
-
     updateDoc(userToEdit, payLoad)
     .then(() => {
         toast.success('The Profile was successfully updated')
