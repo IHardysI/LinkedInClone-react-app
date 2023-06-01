@@ -53,10 +53,24 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                     })}
                 </>
     }
-    
 
-    
 
+    let userEditIf 
+    if(currentProfile.userID == currentUser.userID) {
+        userEditIf = <div className="profileCard__edit" onClick={handleEdit}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16" fill="gray" class="mercado-match" width="16" height="16" focusable="false">
+                                    <path d="M14.13 1.86a3 3 0 00-4.17 0l-7 7L1 15l6.19-2 6.94-7a3 3 0 000-4.16zm-8.36 9.71l-1.35-1.34L9.64 5 11 6.35z"></path>
+                        </svg>
+                    </div>
+    } else if (Object.values(currentProfile).length === 0) {
+        userEditIf = <div className="profileCard__edit" onClick={handleEdit}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16" fill="gray" class="mercado-match" width="16" height="16" focusable="false">
+                                    <path d="M14.13 1.86a3 3 0 00-4.17 0l-7 7L1 15l6.19-2 6.94-7a3 3 0 000-4.16zm-8.36 9.71l-1.35-1.34L9.64 5 11 6.35z"></path>
+                        </svg>
+                    </div>
+    } else {
+        userEditIf =  <></>
+    }
 
 
     return (
@@ -74,9 +88,7 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                             </button>
                             <div className="profileCard__userImg-edit-block">
                                 <img src={testImg} alt="img" className="profileCard__userImg" onClick={() => {goToRoute('/home')}}  />
-                                <div className="profileCard__edit">
-                                    <button className="profileCard__edit-btn" onClick={handleEdit}>Edit</button>
-                                </div>
+                                {userEditIf}
                             </div>
                         </div>
 
@@ -87,7 +99,7 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                                 <div className="profileCard__user-line">
                                     <p className="profileCard__user">
                                         {Object.values(currentProfile).length === 0
-                                            ? currentUser.name
+                                            ? currentUser?.name
                                             : currentProfile?.name}
                                     </p>
                                     <p className="profileCard__title">
@@ -121,9 +133,26 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                     </div>
 
                 </div>
+                <div className="postsCard profileCard__about-skills">
+                    <h2 className="profileCard__about-h">About</h2>
+                    <p className="profileCard__about-p">
+                        {Object.values(currentProfile).length === 0
+                            ? currentUser.about
+                            : currentProfile?.about}
+                    </p>
+
+                    <h2 className="profileCard__skills">Skills</h2>
+                    <p className="profileCard__about-p">
+                        {Object.values(currentProfile).length === 0
+                            ? currentUser.about
+                            : currentProfile?.about}
+                    </p>
+                </div>
+
                 <div className="profileCard__posts">
                     {statuses}
                 </div>
+
             </div>
             
         </div>

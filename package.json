@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.1.4",
     "antd": "^5.4.6",
     "firebase": "^9.19.1",
     "localforage": "^1.10.0",

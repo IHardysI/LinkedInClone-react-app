@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useMemo } from "react";
 import './PostsCard.scss'
 import { useNavigate } from "react-router-dom";
+import LikeBtn from "../LikeBtn/LikeBtn";
+import { getCurrentUser } from '../../../api/StoreAPI'
 
 export default function PostsCard({ posts, currentUser }) {
     let navigate = useNavigate()
-
+    
     return (
         <div className="postsCard">
             <div className="postCard__info" >
@@ -30,6 +32,8 @@ export default function PostsCard({ posts, currentUser }) {
                 </div>
             </div>
             <p className="postCard__p">{posts.status}</p>
+            <hr className="postsCard__hr" />
+            <LikeBtn  userID={currentUser?.id} postID={posts?.id}/>
         </div>
     )
 }

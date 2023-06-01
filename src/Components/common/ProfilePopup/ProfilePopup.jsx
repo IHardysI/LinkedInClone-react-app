@@ -12,9 +12,12 @@ export default function ProfilePopup({ goToRoute, currentUser }) {
             <div className="popup__profile-block">
                 <div className="popup__profile-img-block">
                     <img src={profileTestImg} alt="img" className="popup__img" onClick={() => goToRoute('/profile')} />
-                    <h2 onClick={() => goToRoute('/profile')} className="popup__user">{currentUser.name}</h2>
+                    <div className="popup__name-title">
+                        <h2 onClick={() => goToRoute('/profile')} className="popup__user">{currentUser.name}</h2>
+                        <h3 className="popup__title" onClick={() => goToRoute('/profile')}>{currentUser.headline}</h3>
+                    </div>
                 </div>
-                <button onClick={() => goToRoute('/profile')} className='popup__logout-btn'>View Profile</button>
+                <a onClick={() => goToRoute('/profile')} className='popup__profile-btn'>View Profile</a>
             </div>
             <hr className='popup__profile-hr'/>
             <ul className="popup__options">
