@@ -1,5 +1,5 @@
 import { firestore } from "../firebaseConfig"
-import { addDoc, collection, onSnapshot, doc, updateDoc, query, where, setDoc } from 'firebase/firestore'
+import { addDoc, collection, onSnapshot, doc, updateDoc, query, where, setDoc, deleteDoc } from 'firebase/firestore'
 import { toast } from "react-toastify"
 import { getUniqueID } from "../helper/GetUniqueId"
 
@@ -86,8 +86,12 @@ export const editProfile = (userID, payLoad) => {
 export const likePost = (userID, postID, liked) => {
     try {
         let docToLike = doc(likeRef, `${userID}_${postID}`)
+        if(liked) {
+            deleteDoc(docToLike)
+        } else {
+            setDoc(docToLike, {userID, postID})
+        }
     
-        setDoc(docToLike, {userID, postID})
 
     } catch(error) {
         console.log(error);
@@ -102,7 +106,7 @@ export const getLikesByUser = (userID, postID, setLiked, setLikesCount) => {
             let likes = response.docs.map((doc) => doc.data())
             let likesCount = likes.length
 
-            const isLiked = likes.some((like) => like.id === userID)
+            const isLiked = likes.some((like) => like.userID === userID)
 
             setLikesCount(likesCount)
             setLiked(isLiked)
