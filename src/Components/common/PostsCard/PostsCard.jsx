@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import './PostsCard.scss'
 import { useNavigate } from "react-router-dom";
 import LikeBtn from "../LikeBtn/LikeBtn";
@@ -6,6 +6,11 @@ import { getCurrentUser } from '../../../api/StoreAPI'
 
 export default function PostsCard({ posts, currentUser }) {
     let navigate = useNavigate()
+    const [likesNumb, setLikesNumb] = useState()
+
+    const passLikeNumb = (numb) => {
+        setLikesNumb(numb)
+    }
     
     return (
         <div className="postsCard">
@@ -32,8 +37,19 @@ export default function PostsCard({ posts, currentUser }) {
                 </div>
             </div>
             <p className="postCard__p">{posts.status}</p>
+            {likesNumb !== 0
+                ?
+                    <div className="postsCard__likes" >
+                        <img class="reactions-icon social-detail-social-counts__count-icon social-detail-social-counts__count-icon--0 reactions-icon__consumption--small data-test-reactions-icon-type-LIKE data-test-reactions-icon-theme-light" src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt" alt="like" data-test-reactions-icon-type="LIKE" data-test-reactions-icon-theme="light"></img>
+                        <span className="postsCard__likes-num">{likesNumb}</span>
+                    </div>
+                : 
+                    <div className="postsCard__likes" >
+                        
+                    </div>
+            }
             <hr className="postsCard__hr" />
-            <LikeBtn  userID={currentUser?.id} postID={posts?.id}/>
+            <LikeBtn passLikeNumb={passLikeNumb}  userID={currentUser?.id} postID={posts?.id}/>
         </div>
     )
 }

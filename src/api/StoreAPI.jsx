@@ -91,8 +91,6 @@ export const likePost = (userID, postID, liked) => {
         } else {
             setDoc(docToLike, {userID, postID})
         }
-    
-
     } catch(error) {
         console.log(error);
     }
