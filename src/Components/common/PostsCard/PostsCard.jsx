@@ -12,7 +12,6 @@ export default function PostsCard({ posts, currentUser }) {
         setLikesNumb(numb)
     }
 
-    console.log(currentUser);
     
     return (
         <div className="postsCard">

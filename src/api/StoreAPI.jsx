@@ -6,6 +6,7 @@ import { getUniqueID } from "../helper/GetUniqueId"
 let postsRef = collection(firestore, 'posts')
 let usersRef = collection(firestore, 'users')
 let likeRef = collection(firestore, 'likes')
+let commentsRef = collection(firestore, 'comments')
 
 export const postStatus = (object) => {
     addDoc(postsRef, object)
@@ -110,6 +111,32 @@ export const getLikesByUser = (userID, postID, setLiked, setLikesCount) => {
             setLiked(isLiked)
         })
     } catch(error) {
+        console.log(error);
+    }
+}
+
+export const postComment = (postID, comment, timeStamp) => {
+    try {
+        addDoc(commentsRef, {postID, comment, timeStamp})
+    } catch(error) {
+        console.log(error);
+    }
+}
+
+export const getComments = (postID, setAllComments) => {
+    try {
+        let singlePostQuery = query(commentsRef, where('postID', '==', postID))
+
+        onSnapshot(singlePostQuery, (response) => {
+            const comments = response.docs.map((doc) => {
+                return {
+                    id: doc.id,
+                    ...doc.data(),
+                }
+            })
+            setAllComments(comments)
+        })
+    } catch (error) {
         console.log(error);
     }
 }
