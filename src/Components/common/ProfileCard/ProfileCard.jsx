@@ -38,7 +38,7 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                         })
                         .map((posts) => {
                             return (
-                                <PostsCard posts={posts} key={posts.postID} />
+                                <PostsCard posts={posts} key={posts.postID} currentUser={currentUser} />
                             )
                         })
                         }
@@ -48,7 +48,7 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                     {allStatuses
                     .map((posts) => {
                         return (
-                            <PostsCard posts={posts} key={posts.postID} />
+                            <PostsCard posts={posts} key={posts.postID} currentUser={currentUser} />
                         )
                     })}
                 </>
@@ -71,6 +71,8 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
     } else {
         userEditIf =  <></>
     }
+
+    console.log(currentUser);
 
 
     return (

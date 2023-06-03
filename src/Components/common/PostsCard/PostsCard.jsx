@@ -11,6 +11,8 @@ export default function PostsCard({ posts, currentUser }) {
     const passLikeNumb = (numb) => {
         setLikesNumb(numb)
     }
+
+    console.log(currentUser);
     
     return (
         <div className="postsCard">
