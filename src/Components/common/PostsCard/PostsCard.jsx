@@ -50,7 +50,7 @@ export default function PostsCard({ posts, currentUser }) {
                     </div>
             }
             <hr className="postsCard__hr" />
-            <LikeBtn passLikeNumb={passLikeNumb}  userID={currentUser?.id} postID={posts?.id}/>
+            <LikeBtn passLikeNumb={passLikeNumb}  userID={currentUser?.id} postID={posts?.id} currentUser={currentUser}/>
         </div>
     )
 }

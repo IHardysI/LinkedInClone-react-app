@@ -6,9 +6,10 @@ import { getLikesByUser } from "../../../api/StoreAPI";
 import testUser from '../../../assets/profile.jpg'
 import { postComment } from "../../../api/StoreAPI";
 import GetTimeStamp from "../../../helper/GetTimeStamp";
+import {useNavigate } from "react-router-dom";
 
 
-export default function LikeBtn({ userID, postID, passLikeNumb }) {
+export default function LikeBtn({ userID, postID, passLikeNumb, currentUser }) {
     const [likesCount, setLikesCount] = useState(0)
     const [liked, setLiked] = useState(false)
     const [commentBlock, setCommentBlock] = useState(false)
@@ -29,14 +30,14 @@ export default function LikeBtn({ userID, postID, passLikeNumb }) {
     }
 
     const addComment = () => {
-        comment ? postComment(postID, comment, GetTimeStamp('LLL')) : console.log('type a comment');
+        comment ? postComment(postID, comment, GetTimeStamp('LLL'), currentUser.name) : console.log('type a comment');
         
         setComment('')
         
     }
 
     
-
+    const navigate = useNavigate()
 
 
     return (
@@ -59,8 +60,20 @@ export default function LikeBtn({ userID, postID, passLikeNumb }) {
                             <input value={comment} onChange={getComment} name="comment" type="text" className="like-comment__input" placeholder="Add a comment..." />
                             <button onClick={addComment} className="like-comment__btn">Post</button>
                         </div>
+                        
                         <div className="like-comment__all-comments">
-                            
+                            {allComments.length > 0 ? (allComments.map((comment) => {
+                                return(
+                                    <div className="comment__box" key={comment.id}>
+                                        <img src={testUser} alt="user-icon" className="comment__user-icon" />
+                                        <div className="comment__texts">
+                                            <p className="comment__user ">{comment.name}</p>
+                                            <p className="comment__timeStamp">{GetTimeStamp('LLL')}</p>
+                                            <p className="comment__comment">{comment.comment}</p>
+                                        </div>
+                                    </div>
+                                )
+                            })) : <></>}
                         </div>
                     </>
                 : 

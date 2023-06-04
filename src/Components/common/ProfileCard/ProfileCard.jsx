@@ -36,6 +36,11 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                         .filter((item) => {
                             return item.userEmail === currentUser.email
                         })
+                        .sort((a, b) => {
+                            const timeStampA = new Date(a.timeStamp);
+                            const timeStampB = new Date(b.timeStamp);
+                            return timeStampB - timeStampA;
+                        })
                         .map((posts) => {
                             return (
                                 <PostsCard posts={posts} key={posts.postID} currentUser={currentUser} />
@@ -46,6 +51,11 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
     } else {
         statuses = <>
                     {allStatuses
+                    .sort((a, b) => {
+                        const timeStampA = new Date(a.timeStamp);
+                        const timeStampB = new Date(b.timeStamp);
+                        return timeStampB - timeStampA;
+                    })
                     .map((posts) => {
                         return (
                             <PostsCard posts={posts} key={posts.postID} currentUser={currentUser} />

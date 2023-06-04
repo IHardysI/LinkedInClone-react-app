@@ -72,6 +72,14 @@
                 outline: none;
                 box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.3);
             }
+
+            &:-webkit-autofill,
+                    &:-webkit-autofill:hover,
+                    &:-webkit-autofill:focus,
+                    &:-webkit-autofill:active {
+                        transition: background-color 5000s ease-in-out 0s;
+                        -webkit-text-fill-color: rgba(0,0,0,0.9) !important;
+                    }
         }
 
         &:has(.like-comment__input:focus) {
@@ -93,6 +101,58 @@
             background-color: #0073b1;
             font-weight: 600;
             cursor: pointer;
+        }
+    }
+
+    .like-comment__all-comments {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 2rem;
+
+        .comment__box {
+            display: flex;
+            gap: 8px;
+            .comment__user-icon {
+                display: inline-flex;
+                width: 45px;
+                height: 45px;
+                min-width: 45px;
+                object-fit: cover;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+
+            .comment__texts {
+                width: 93%;
+                height: auto;
+                background-color: rgb(234, 234, 234);
+                border-radius: 0 8px 8px 8px;
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+
+                .comment__user {
+                    color: rgba(0, 0, 0, 0.9);
+                    font-weight: 600;
+                    margin-bottom: 3px;
+                    font-size: 14px;
+                    margin-bottom: 2px;
+                }
+
+                .comment__timeStamp {
+                    font-size: 12px;
+                    font-weight: 400;
+                    color: rgba(0, 0, 0, 0.6);
+                    margin-bottom: 10px;
+                }
+
+                .comment__comment {
+                    font-size: 14px;
+                    line-height: 20px;
+                    color: rgba(0, 0, 0, 0.9);
+                }
+            }
         }
     }
 }

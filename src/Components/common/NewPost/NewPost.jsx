@@ -72,7 +72,13 @@ export default function PostStatus({currentUser}) {
                 modalOpen={modalOpen} setModalOpen={setModalOpen} setStatus={setStatus} status={status} sendStatus={sendStatus}
             />
             <div className="postStatus__posts postStatus__container">
-                {allStatuses.map((posts) => {
+                {allStatuses
+                .sort((a, b) => {
+                    const timeStampA = new Date(a.timeStamp);
+                    const timeStampB = new Date(b.timeStamp);
+                    return timeStampB - timeStampA;
+                })
+                .map((posts) => {
                     return (
                         <PostsCard key={posts.id} posts={posts} currentUser={currentUser}/>
                     )
