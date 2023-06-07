@@ -1,18 +1,29 @@
-import React, {useState, useMemo} from "react";
+import React, {useState, useMemo, useEffect} from "react";
 import './ProfileCard.scss'
 import testImg from '../../../assets/profile.jpg'
 import testBack from '../../../assets/endBack-v1.png'
 import PostsCard from "../PostsCard/PostsCard";
-import { postStatus, getStatus } from "../../../api/StoreAPI";
+import { postStatus, getStatus, editProfile } from "../../../api/StoreAPI";
 import { getSingleStatus, getSingleUser } from "../../../api/StoreAPI";
 import { useLocation } from "react-router-dom";
+import { uploadImage as uploadImageAPI } from "../../../api/ImageUpload";
 
 
 
 export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
+    let location = useLocation()
     const [allStatuses, setAllStatuses] = useState([])
     const [currentProfile, setCurrentProfile] = useState({})
-    let location = useLocation()
+    const [currentUserImage, setCurrentUserImage] = useState({})
+    
+    const getImage = (event) => {
+        setCurrentUserImage(event.target.files[0]);
+    }
+    
+    const uploadPic = () => {
+        uploadImageAPI(currentUserImage, currentUser.id)
+    }
+
 
     useMemo(() => {
         if (location?.state?.id) {
@@ -25,11 +36,9 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
             getSingleUser(setCurrentProfile, location?.state?.email)
         }
     }, [])
-    
 
 
     let statuses
-
     if (Object.values(currentProfile).length === 0) {
         statuses = <>
                         {allStatuses
@@ -82,7 +91,7 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
         userEditIf =  <></>
     }
 
-    console.log(currentUser);
+    console.log(currentProfile);
 
 
     return (
@@ -92,6 +101,8 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                     <div className="profileCard__info">
 
                         <div className="profileCard__img-edit-block">
+                            <input type="file" className="profileCard__uploud" onChange={getImage} />
+                            <button onClick={uploadPic}>Upload</button>
                             <img src={testBack} alt="" className="profileCard__back" />
                             <button className="profileCard__edit-back">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16" fill="gray" class="mercado-match" width="16" height="16" focusable="false">
@@ -99,7 +110,7 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                                 </svg>
                             </button>
                             <div className="profileCard__userImg-edit-block">
-                                <img src={testImg} alt="img" className="profileCard__userImg" onClick={() => {goToRoute('/home')}}  />
+                                <img src={Object.values(currentProfile).length === 0 ? currentUser?.imageLink : currentProfile?.imageLink}  alt="img" className="profileCard__userImg" onClick={() => {goToRoute('/home')}}  />
                                 {userEditIf}
                             </div>
                         </div>

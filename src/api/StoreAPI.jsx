@@ -1,7 +1,6 @@
 import { firestore } from "../firebaseConfig"
 import { addDoc, collection, onSnapshot, doc, updateDoc, query, where, setDoc, deleteDoc } from 'firebase/firestore'
 import { toast } from "react-toastify"
-import { getUniqueID } from "../helper/GetUniqueId"
 
 let postsRef = collection(firestore, 'posts')
 let usersRef = collection(firestore, 'users')
