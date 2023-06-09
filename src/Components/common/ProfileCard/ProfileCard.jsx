@@ -7,6 +7,9 @@ import { postStatus, getStatus, editProfile } from "../../../api/StoreAPI";
 import { getSingleStatus, getSingleUser } from "../../../api/StoreAPI";
 import { useLocation } from "react-router-dom";
 import { uploadImage as uploadImageAPI } from "../../../api/ImageUpload";
+import FileUploadModal from "../FileUploadModal/FileUploadModal";
+import { uploadBack as uploadBackAPI } from "../../../api/ImageUpload";
+import BackUploadModal from "../BackUploadModal/BackUploadModal";
 
 
 
@@ -15,15 +18,34 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
     const [allStatuses, setAllStatuses] = useState([])
     const [currentProfile, setCurrentProfile] = useState({})
     const [currentUserImage, setCurrentUserImage] = useState({})
+    const [currentBackImage, setCurrentBackImage] = useState({})
+    const [modal1Open, setModal1Open] = useState(false)
+    const [modal2Open, setModal2Open] = useState(false)
     
     const getImage = (event) => {
         setCurrentUserImage(event.target.files[0]);
     }
     
-    const uploadPic = () => {
-        uploadImageAPI(currentUserImage, currentUser.id)
+    const uploadPic = async () => {
+        try {
+            await uploadImageAPI(currentUserImage, currentUser.id);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
+    const getBack = (event) => {
+        setCurrentBackImage(event.target.files[0])
+        console.log(currentBackImage);
+    }
+
+    const uploadBack = async () => {
+        try {
+            uploadBackAPI(currentBackImage, currentUser.id)
+        } catch (error){
+            console.log(error);
+        }
+    }
 
     useMemo(() => {
         if (location?.state?.id) {
@@ -91,26 +113,38 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
         userEditIf =  <></>
     }
 
-    console.log(currentProfile);
+
+    let userBackIf 
+    if(currentProfile.userID == currentUser.userID) {
+        userBackIf = <button className="profileCard__edit-back" onClick={() => setModal2Open(true)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16" fill="gray" class="mercado-match" width="16" height="16" focusable="false">
+                            <path d="M14.13 1.86a3 3 0 00-4.17 0l-7 7L1 15l6.19-2 6.94-7a3 3 0 000-4.16zm-8.36 9.71l-1.35-1.34L9.64 5 11 6.35z"></path>
+                        </svg>
+                    </button>
+    } else if (Object.values(currentProfile).length === 0) {
+        userBackIf = <button className="profileCard__edit-back" onClick={() => setModal2Open(true)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16" fill="gray" class="mercado-match" width="16" height="16" focusable="false">
+                            <path d="M14.13 1.86a3 3 0 00-4.17 0l-7 7L1 15l6.19-2 6.94-7a3 3 0 000-4.16zm-8.36 9.71l-1.35-1.34L9.64 5 11 6.35z"></path>
+                        </svg>
+                    </button>
+    } else {
+        userBackIf =  <></>
+    }
+
 
 
     return (
         <div className="profileCard">
+            <FileUploadModal modal1Open={modal1Open} setModal1Open={setModal1Open} getImage={getImage} uploadPic={uploadPic} />
+            <BackUploadModal modal2Open={modal2Open} setModal2Open={setModal2Open} getBack={getBack} uploadBack={uploadBack} />
             <div className="profileCard__container">
                 <div className="profileCard__content">
                     <div className="profileCard__info">
-
                         <div className="profileCard__img-edit-block">
-                            <input type="file" className="profileCard__uploud" onChange={getImage} />
-                            <button onClick={uploadPic}>Upload</button>
-                            <img src={testBack} alt="" className="profileCard__back" />
-                            <button className="profileCard__edit-back">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16" fill="gray" class="mercado-match" width="16" height="16" focusable="false">
-                                    <path d="M14.13 1.86a3 3 0 00-4.17 0l-7 7L1 15l6.19-2 6.94-7a3 3 0 000-4.16zm-8.36 9.71l-1.35-1.34L9.64 5 11 6.35z"></path>
-                                </svg>
-                            </button>
+                            <img src={Object.values(currentProfile).length === 0 ? currentUser?.BackLink : currentProfile?.BackLink}  alt="back" className="profileCard__back" />
+                            {userBackIf}
                             <div className="profileCard__userImg-edit-block">
-                                <img src={Object.values(currentProfile).length === 0 ? currentUser?.imageLink : currentProfile?.imageLink}  alt="img" className="profileCard__userImg" onClick={() => {goToRoute('/home')}}  />
+                                <img src={Object.values(currentProfile).length === 0 ? currentUser?.imageLink : currentProfile?.imageLink}  alt="img" className="profileCard__userImg" onClick={() => setModal1Open(true)}  />
                                 {userEditIf}
                             </div>
                         </div>

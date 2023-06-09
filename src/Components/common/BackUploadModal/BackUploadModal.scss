@@ -1,0 +1,10 @@
+.modal__upload-image {
+    display: flex;
+    gap: 1rem;
+
+    .modal__preview {
+        width: 150px;
+        height: auto;
+        object-fit: contain;
+    }
+}
