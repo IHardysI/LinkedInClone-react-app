@@ -26,7 +26,7 @@ export const uploadImage = (file, id) => {
 
 
 export const uploadBack = (file, id) => {
-    const profileIconsRef = ref(storage, `userBacks/${file.name}`)
+    const profileIconsRef = ref(storage, `userImages/${file.name}`)
     const uploadTask = uploadBytesResumable(profileIconsRef, file)
 
     uploadTask.on('state_changed', (snapshot) => {

@@ -24,27 +24,18 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
     
     const getImage = (event) => {
         setCurrentUserImage(event.target.files[0]);
-    }
-    
-    const uploadPic = async () => {
-        try {
-            await uploadImageAPI(currentUserImage, currentUser.id);
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
+    }
     const getBack = (event) => {
         setCurrentBackImage(event.target.files[0])
-        console.log(currentBackImage);
+    }
+    
+    const uploadPic = () => {
+        uploadImageAPI(currentUserImage, currentUser.id);
     }
 
-    const uploadBack = async () => {
-        try {
-            uploadBackAPI(currentBackImage, currentUser.id)
-        } catch (error){
-            console.log(error);
-        }
+    const uploadBack = () => {
+        uploadBackAPI(currentBackImage, currentUser.id)
     }
 
     useMemo(() => {

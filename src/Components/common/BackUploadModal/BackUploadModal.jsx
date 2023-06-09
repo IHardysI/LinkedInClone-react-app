@@ -17,10 +17,10 @@ export default function BackUploadModal({modal2Open, setModal2Open, getBack, upl
             ]}
         >
         <div className='modal__upload-image'>
-            <label htmlFor='image-upload' className='add__img-btn'>
+            <label for='back' className='add__img-btn'>
                 Add an Image
             </label>
-            <input hidden id='image-upload' type="file" className="profileCard__upload" onChange={getBack} />
+            <input hidden placeholder='Add an Image' id='back' type="file" className="profileCard__upload" onChange={getBack} />
         </div>
         </Modal>
     )
