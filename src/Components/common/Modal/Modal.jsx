@@ -4,7 +4,7 @@ import './Modal.scss';
 
 
 
-const ModalComponent = ({modalOpen, setModalOpen, setStatus, status, sendStatus}) => {
+const ModalComponent = ({modalOpen, setModalOpen, setStatus, status, sendStatus, isEdit, updateStatus}) => {
     const [state, setState] = useState('')
 
     const handleChange = (e) => {
@@ -18,14 +18,20 @@ const ModalComponent = ({modalOpen, setModalOpen, setStatus, status, sendStatus}
     return (
         <>
         <Modal
-            title="Create a post"
+            title={isEdit ? 'Edit post' : "Create a post"}
             centered
             open={modalOpen}
-            onOk={() => setModalOpen(false)}
-            onCancel={() => setModalOpen(false)}
+            onOk={() => {
+                setModalOpen(false)
+                setStatus('')
+            }}
+            onCancel={() => {
+                setModalOpen(false)
+                setStatus('')
+            }}
             footer={[
-                <Button onClick={sendStatus} key="submit" type="primary" disabled={status.length > 0 ? false : true}>
-                    Post
+                <Button onClick={isEdit ? updateStatus : sendStatus} key="submit" type="primary" disabled={status.length > 0 ? false : true}>
+                    {isEdit ? 'Update' : 'Post'}
                 </Button>,
                 ]}
         >

@@ -28,6 +28,16 @@ export const getStatus = (setAllStatuses) => {
     })
 }
 
+export const getUsers = (setAllUsers) => {
+    onSnapshot(usersRef, (response) => {
+        setAllUsers(
+        response.docs.map((docs) => {
+            return { ...docs.data(), id: docs.id }
+        })
+        )
+    })
+}
+
 export const getSingleStatus = (setAllStatus, id) => {
     const singlePostQuery = query(postsRef, where("userID", "==", id));
     onSnapshot(singlePostQuery, (response) => {
@@ -135,6 +145,27 @@ export const getComments = (postID, setAllComments) => {
             })
             setAllComments(comments)
         })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+export const updatePost = (id, status) => {
+    let postToUpdate = doc(postsRef, id)
+    try {
+        updateDoc(postToUpdate, { status })
+        toast.success('Post was updated')
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const deletePost = (id) => {
+    let docToDelete = doc(postsRef, id)
+    try {
+        deleteDoc(docToDelete)
+        toast.success('Post was deleted')
     } catch (error) {
         console.log(error);
     }

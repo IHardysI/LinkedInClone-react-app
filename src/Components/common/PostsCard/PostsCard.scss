@@ -29,9 +29,11 @@
             background-color: gray;
             margin-right: 0.5rem;
             cursor: pointer;
+            object-fit: cover;
         }
 
         .postCard__info-text {
+            margin-right: auto;
 
             .postCard__user {
                 color: rgba(0, 0, 0, 0.9);
@@ -48,6 +50,27 @@
                 font-size: 12px;
                 color: gray;
                 cursor: pointer;
+            }
+        }
+
+        .postsCard__changes {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+
+            .postsCard__icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: transparent;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                transition-duration: 156ms;
+                cursor: pointer;
+                &:hover {
+                    background-color: rgba(0,0,0,0.08);
+                }
             }
         }
     }

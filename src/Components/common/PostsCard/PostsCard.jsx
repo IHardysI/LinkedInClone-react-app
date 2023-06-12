@@ -1,23 +1,33 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import './PostsCard.scss'
 import { useNavigate } from "react-router-dom";
 import LikeBtn from "../LikeBtn/LikeBtn";
-import { getCurrentUser } from '../../../api/StoreAPI'
+import { getCurrentUser, getUsers, deletePost } from '../../../api/StoreAPI'
+import defaultUserImage from '../../../assets/user-icon.svg'
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
-export default function PostsCard({ posts, currentUser }) {
+
+export default function PostsCard({ posts, currentUser, getEditData }) {
     let navigate = useNavigate()
     const [likesNumb, setLikesNumb] = useState()
+    const [allUsers, setAllUsers] = useState([])
+
+    useMemo(() => {
+        getUsers(setAllUsers);
+    }, [])
 
     const passLikeNumb = (numb) => {
         setLikesNumb(numb)
     }
 
     
+
+
     return (
         <div className="postsCard">
             <div className="postCard__info" >
                 <img
-                    src="" 
+                    src={allUsers.filter((item) => item.id === posts.userID).map((item) => item.imageLink)} 
                     alt="" 
                     className="postCard__img" 
                     onClick={() => 
@@ -36,12 +46,31 @@ export default function PostsCard({ posts, currentUser }) {
                     </p>
                     <span className="postCard__timeStamp">{posts.timeStamp}</span>
                 </div>
+                {currentUser.id === posts.userID
+                ?
+                    <div className="postsCard__changes">
+                        <div className="postsCard__icon">
+                            <EditOutlined 
+                            style={{color: 'gray', fontSize: '17px'}}
+                            onClick={() => getEditData(posts)}
+                            />
+                        </div>
+                        <div className='postsCard__icon'>
+                            <DeleteOutlined
+                            style={{color: 'gray', fontSize: '17px'}}
+                            onClick={() => deletePost(posts.id)}
+                            />
+                        </div>
+                    </div>
+                :
+                    <></>
+                }
             </div>
             <p className="postCard__p">{posts.status}</p>
             {likesNumb !== 0
                 ?
                     <div className="postsCard__likes" >
-                        <img class="reactions-icon social-detail-social-counts__count-icon social-detail-social-counts__count-icon--0 reactions-icon__consumption--small data-test-reactions-icon-type-LIKE data-test-reactions-icon-theme-light" src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt" alt="like" data-test-reactions-icon-type="LIKE" data-test-reactions-icon-theme="light"></img>
+                        <img className="reactions-icon social-detail-social-counts__count-icon social-detail-social-counts__count-icon--0 reactions-icon__consumption--small data-test-reactions-icon-type-LIKE data-test-reactions-icon-theme-light" src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt" alt="like" data-test-reactions-icon-type="LIKE" data-test-reactions-icon-theme="light"></img>
                         <span className="postsCard__likes-num">{likesNumb}</span>
                     </div>
                 : 
