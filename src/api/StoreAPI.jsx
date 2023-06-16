@@ -6,6 +6,7 @@ let postsRef = collection(firestore, 'posts')
 let usersRef = collection(firestore, 'users')
 let likeRef = collection(firestore, 'likes')
 let commentsRef = collection(firestore, 'comments')
+let connectionsRef = collection(firestore, 'connections')
 
 export const postStatus = (object) => {
     addDoc(postsRef, object)
@@ -167,6 +168,46 @@ export const deletePost = (id) => {
         deleteDoc(docToDelete)
         toast.success('Post was deleted')
     } catch (error) {
+        console.log(error);
+    }
+}
+
+export const addConnection = (userID, targetID) => {
+    try {
+        let connectionToAdd = doc(connectionsRef, `${userID}_${targetID}`)
+            setDoc(connectionToAdd, {userID, targetID})
+            toast.success('Connection was added')
+
+    } catch(error) {
+        console.log(error);
+    }
+}
+
+export const getConnections = (userID, targetID, setIsConnected ) => {
+    try{
+        let connectionQuery = query(connectionsRef, where('targetID', '==', targetID))
+
+        onSnapshot(connectionQuery, (response) => {
+            let connections = response.docs.map((doc) => doc.data())
+
+            const isConnected = connections.some((connection) => connection.userID === userID)
+
+            setIsConnected(isConnected)
+        })
+    } catch(error) {
+        console.log(error);
+    }
+}
+
+export const unfollowConnection = (userID, postID, isConnected) => {
+    try {
+        let docToUnfollow = doc(connectionsRef, `${userID}_${postID}`)
+        if(isConnected) {
+            deleteDoc(docToUnfollow)
+        } else {
+            Console.log('There is nothing to unfollow')
+        }
+    } catch(error) {
         console.log(error);
     }
 }

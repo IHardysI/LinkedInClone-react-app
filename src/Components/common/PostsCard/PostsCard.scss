@@ -26,7 +26,6 @@
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background-color: gray;
             margin-right: 0.5rem;
             cursor: pointer;
             object-fit: cover;
@@ -34,11 +33,15 @@
 
         .postCard__info-text {
             margin-right: auto;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
             .postCard__user {
                 color: rgba(0, 0, 0, 0.9);
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                 font-weight: 600;
                 margin-bottom: 3px;
+                font-size: 14px;
+                line-height: 20px;
                 cursor: pointer;
                 &:hover {
                     text-decoration: underline;
@@ -46,9 +49,21 @@
                 }
             }
 
-            .postCard__timeStamp {
+            .postCard__headline {
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                 font-size: 12px;
-                color: gray;
+                font-weight: 400;
+                height: 16px;
+                color: rgba(0, 0, 0, 0.6);
+                cursor: pointer;
+            }
+
+            .postCard__timeStamp {
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                font-size: 12px;
+                font-weight: 400;
+                height: 16px;
+                color: rgba(0, 0, 0, 0.6);
                 cursor: pointer;
             }
         }

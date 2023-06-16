@@ -2,7 +2,7 @@ import React, { useMemo, useState, useEffect } from "react";
 import './PostsCard.scss'
 import { useNavigate } from "react-router-dom";
 import LikeBtn from "../LikeBtn/LikeBtn";
-import { getCurrentUser, getUsers, deletePost } from '../../../api/StoreAPI'
+import { getCurrentUser, getUsers, deletePost, getConnections } from '../../../api/StoreAPI'
 import defaultUserImage from '../../../assets/user-icon.svg'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
@@ -11,23 +11,31 @@ export default function PostsCard({ posts, currentUser, getEditData }) {
     let navigate = useNavigate()
     const [likesNumb, setLikesNumb] = useState()
     const [allUsers, setAllUsers] = useState([])
+    const [isConnected, setIsConnected] = useState(false)
+
 
     useMemo(() => {
         getUsers(setAllUsers);
     }, [])
 
+    useEffect(() => {
+        getConnections(currentUser.id, posts.userID, setIsConnected)
+    }, [currentUser.id, posts.userID])
+
+
     const passLikeNumb = (numb) => {
         setLikesNumb(numb)
     }
 
+    let headline = allUsers.filter((item) => item.id === posts.userID).map((item) => item?.headline)
     
 
-
     return (
+        isConnected ? 
         <div className="postsCard">
             <div className="postCard__info" >
                 <img
-                    src={allUsers.filter((item) => item.id === posts.userID).map((item) => item.imageLink)} 
+                    src={allUsers.filter((item) => item.id === posts.userID).map((item) => item.imageLink)[0] ? allUsers.filter((item) => item.id === posts.userID).map((item) => item.imageLink)[0] : defaultUserImage} 
                     alt="" 
                     className="postCard__img" 
                     onClick={() => 
@@ -42,8 +50,12 @@ export default function PostsCard({ posts, currentUser, getEditData }) {
                             state: {id: posts?.userID, email: posts.userEmail}
                             })}
                     >
-                        {posts.userName}
+                        {allUsers.filter((item) => item.id === posts.userID).map((item) => item.name)}
                     </p>
+                    {headline[0] === undefined
+                    ? <></>
+                    : <p className="postCard__headline">{headline}</p>
+                    }
                     <span className="postCard__timeStamp">{posts.timeStamp}</span>
                 </div>
                 {currentUser.id === posts.userID
@@ -80,6 +92,6 @@ export default function PostsCard({ posts, currentUser, getEditData }) {
             }
             <hr className="postsCard__hr" />
             <LikeBtn passLikeNumb={passLikeNumb}  userID={currentUser?.id} postID={posts?.id} currentUser={currentUser}/>
-        </div>
+        </div> : (<></>)
     )
 }

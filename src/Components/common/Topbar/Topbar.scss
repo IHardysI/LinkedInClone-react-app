@@ -164,7 +164,7 @@
                 }
         
                 .topbar__icon {
-                    width: 21px;
+                    width: 22px;
                 }
                 @media(max-width: 991.98px) {
                     p {
@@ -201,7 +201,12 @@
             text-align: center;
 
             .topbar__user-icon {
-                
+                border-radius: 50%;
+                display: inline-block;
+                aspect-ratio: 1;
+                width: 22px;
+                height: 22px;
+                object-fit: cover;
             }
         }
     }

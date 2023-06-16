@@ -202,6 +202,34 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
         userBackIf = <></>;
     }
 
+    console.log(currentUser);
+    console.log(currentProfile);
+
+    let userBack
+    if (Object.values(currentProfile).length === 0 && currentUser.BackLink){
+        userBack = currentUser.BackLink
+    } else if (Object.values(currentProfile).length > 0 && currentProfile.BackLink) {
+        userBack = currentProfile.BackLink
+    } else {
+        userBack = defaultBack
+    }
+
+    let userIcon 
+    if (Object.values(currentProfile).length === 0 && currentUser.imageLink){
+        userIcon = currentUser.imageLink
+    } else if (Object.values(currentProfile).length > 0 && currentProfile.imageLink) {
+        userIcon = currentProfile.imageLink
+    } else {
+        userIcon = defaultUserIcon
+    }
+
+    let imageUploadIf 
+    if (Object.values(currentProfile).length === 0 || currentProfile.email === currentUser.email) {
+        imageUploadIf = () => setModal1Open(true)
+    } else {
+        imageUploadIf = () => setModal1Open(false)
+    }
+
     return (
         <div className="profileCard">
             <ModalComponent
@@ -236,10 +264,7 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                         <div className="profileCard__img-edit-block">
                             <img
                                 src={
-                                    (currentUser.BackLink || currentProfile.BackLink) ?
-                                    (Object.values(currentProfile).length === 0
-                                        ? currentUser?.BackLink
-                                        : currentProfile?.BackLink) : defaultBack
+                                    userBack
                                 }
                                 alt="back"
                                 className="profileCard__back"
@@ -248,14 +273,11 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                             <div className="profileCard__userImg-edit-block">
                                 <img
                                     src={
-                                        (currentUser.imageLink || currentProfile.imageLink) ?
-                                        (Object.values(currentProfile).length === 0
-                                            ? currentUser?.imageLink
-                                            : currentProfile?.imageLink) : defaultUserIcon
+                                        userIcon
                                     }
                                     alt="img"
                                     className="profileCard__userImg"
-                                    onClick={() => setModal1Open(true)}
+                                    onClick={imageUploadIf}
                                 />
                                 {userEditIf}
                             </div>
