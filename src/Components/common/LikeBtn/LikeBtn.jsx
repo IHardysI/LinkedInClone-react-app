@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import './LikeBtn.scss'
 import { LikeOutlined, LikeFilled, CommentOutlined } from "@ant-design/icons";
 import { getComments, getCurrentUser, likePost } from "../../../api/StoreAPI";
@@ -7,6 +7,7 @@ import testUser from '../../../assets/profile.jpg'
 import { postComment } from "../../../api/StoreAPI";
 import GetTimeStamp from "../../../helper/GetTimeStamp";
 import {useNavigate } from "react-router-dom";
+import { getUsers } from "../../../api/StoreAPI";
 
 
 export default function LikeBtn({ userID, postID, passLikeNumb, currentUser }) {
@@ -15,6 +16,7 @@ export default function LikeBtn({ userID, postID, passLikeNumb, currentUser }) {
     const [commentBlock, setCommentBlock] = useState(false)
     const [comment, setComment] = useState('')
     const [allComments, setAllComments] = useState([])
+    const [users, setUsers] = useState([])
     const handleLike = () => {
         likePost(userID, postID, liked)
     }
@@ -36,8 +38,15 @@ export default function LikeBtn({ userID, postID, passLikeNumb, currentUser }) {
         
     }
 
+    useEffect(() => {
+        getUsers(setUsers)
+    }, [])
+
+
+
     
     const navigate = useNavigate()
+
 
 
     return (
@@ -56,7 +65,7 @@ export default function LikeBtn({ userID, postID, passLikeNumb, currentUser }) {
                 ?
                     <>
                         <div className="like-comment__input-block">
-                            <img src={testUser} alt="user" className="like-comment__img" />
+                            <img src={currentUser.imageLink} alt="user" className="like-comment__img" />
                             <input value={comment} onChange={getComment} name="comment" type="text" className="like-comment__input" placeholder="Add a comment..." />
                             <button onClick={addComment} className="like-comment__btn">Post</button>
                         </div>
@@ -65,7 +74,7 @@ export default function LikeBtn({ userID, postID, passLikeNumb, currentUser }) {
                             {allComments.length > 0 ? (allComments.map((comment) => {
                                 return(
                                     <div className="comment__box" key={comment.id}>
-                                        <img src={testUser} alt="user-icon" className="comment__user-icon" />
+                                        <img src={users.filter((user) => user.name === comment.name)[0].imageLink} alt="user-icon" className="comment__user-icon" />
                                         <div className="comment__texts">
                                             <p className="comment__user ">{comment.name}</p>
                                             <p className="comment__timeStamp">{GetTimeStamp('LLL')}</p>
