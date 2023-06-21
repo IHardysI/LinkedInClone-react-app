@@ -1,0 +1,113 @@
+.search-block {
+    position: relative;
+    z-index: 1;
+    max-width: 280px;
+    width: 100%;
+    border: 1px solid transparent;
+    border-radius: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: 0.2s;
+    margin-left: 7px;
+    margin-right: auto;
+    @media(max-width: 1050px) {
+        max-width: 224px;
+    }
+    @media(max-width:991.98px) {
+        max-width: 30px;
+        &.clicked {
+            max-width: 100vw;
+        }
+    }
+
+    .search-icon {
+        position: absolute;
+        z-index: 10;
+        transform: translateX(3px);
+    }
+
+    .search-input {
+        position: relative;
+        z-index: 2;
+        width: 80%;
+        line-height: 1.75;
+        font-weight: 400;
+        font-size: 14px;
+        height: 34px;
+        background-color: #eef3f8;
+        color: rgba(0,0,0,0.9);
+        border: none;
+        box-shadow: none;
+        border-radius: 0.4rem;
+        outline: 0;
+        padding: 0 0.2rem 0 1.8rem;
+        transition: 156ms;
+        @media(max-width:991.98px) {
+            background-color: transparent;
+        }
+        &.clicked {
+            border: 1px #0073b1 solid;
+            box-shadow: 0 0 0 1px var(--color-action, #0a66c2);
+            font-size: 16px;
+            width: 100%;
+            padding-left: 2rem;
+            background-color: #eef3f8;
+        } 
+    }
+
+
+    .search__close {
+        right: 8px;
+        position: absolute;
+        z-index: 10;
+        cursor: pointer;
+    }
+}
+
+.search-results {
+    width: 300px;
+    max-height: 300px;
+    height: auto;
+    position: fixed;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid rgb(175, 175, 175);
+    z-index: 100;
+    top: 52px;
+    left: 71px;
+    @media(max-width:991.98px) {
+        width: 100%;
+        left: 0;
+        border-radius: 0;
+        border: none;
+        background-color: whitesmoke;
+    }
+
+    .results__item{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 1rem;
+        cursor: pointer;
+        &:hover {
+            background-color: rgb(235, 235, 235);
+        }
+        &:not(:last-child) {
+            border-bottom: rgb(179, 176, 176) 1px solid;
+        }
+
+
+        .results__icon {
+            width: 40px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            object-fit: cover;
+            
+        }
+
+        .results__name {
+            
+        }
+    }
+}

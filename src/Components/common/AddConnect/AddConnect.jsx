@@ -3,9 +3,13 @@ import './AddConnect.scss'
 import defaultBack from '../../../assets/defaultBack.svg'
 import defaultUserIcon from '../../../assets/user-icon.svg'
 import { getConnections } from "../../../api/StoreAPI";
+import { useNavigate } from "react-router-dom";
 
 export default function AddConnect({user, getCurrentUser, currentUser}) {
     const [isConnected, setIsConnected] = useState(false)
+
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         getConnections(currentUser.id, user.id, setIsConnected)

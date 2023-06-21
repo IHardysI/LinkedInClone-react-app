@@ -29,7 +29,7 @@ export const uploadImage = (file, id, setModal1Open, setUploadProgressUser, setC
 
 
 export const uploadBack = (file, id, setModal2Open, setUploadProgressBack, setCurrentBackImage) => {
-    const profileIconsRef = ref(storage, `userImages/${file.name}`)
+    const profileIconsRef = ref(storage, `backImages/${file.name}`)
     const uploadTask = uploadBytesResumable(profileIconsRef, file)
 
     uploadTask.on('state_changed', (snapshot) => {
@@ -44,6 +44,25 @@ export const uploadBack = (file, id, setModal2Open, setUploadProgressBack, setCu
             setModal2Open(false)
             setCurrentBackImage({})
             setUploadProgressBack(0)
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    })
+}
+
+export const postImageUpload = (file, setPostImage) => {
+    const postsPicturesRef = ref(storage, `postImages/${file.name}`)
+    const uploadTask = uploadBytesResumable(postsPicturesRef, file)
+
+    uploadTask.on('state_changed', (snapshot) => {
+        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
+        
+    }, (error) => {
+        console.error(error);
+    }, () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((response) => {
+            setPostImage(response)
         })
         .catch((error) => {
             console.log(error);

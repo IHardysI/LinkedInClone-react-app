@@ -10,6 +10,7 @@ import { updatePost } from "../../../api/StoreAPI";
 import defaultUserIcon from '../../../assets/user-icon.svg'
 import defaultBack from '../../../assets/defaultBack.svg'
 import { useNavigate } from "react-router-dom";
+import { postImageUpload } from "../../../api/ImageUpload";
 
 export default function PostStatus({currentUser}) {
     
@@ -18,6 +19,8 @@ export default function PostStatus({currentUser}) {
     const [allStatuses, setAllStatuses] = useState([])
     const [isEdit, setIsEdit] = useState(false)
     const [currentPost, setCurrentPost] = useState({})
+    const [postImage, setPostImage] = useState('')
+
 
     const sendStatus = async () => {
         let object = {
@@ -27,6 +30,7 @@ export default function PostStatus({currentUser}) {
             userName: currentUser.name,
             postID: getUniqueID(),
             userID: currentUser.id,
+            statusImage: postImage,
         }
         await postStatus(object)
         await setModalOpen(false)
@@ -43,7 +47,7 @@ export default function PostStatus({currentUser}) {
 
     const updateStatus = () => {
         console.log(status);
-        updatePost(currentPost.id, status)
+        updatePost(currentPost.id, status, postImage)
         setModalOpen(false)
     }
 
@@ -75,7 +79,7 @@ export default function PostStatus({currentUser}) {
                             Start a post
                         </button>
                     </div>
-                    <div className="postStatus__icons-block">
+                    {/* <div className="postStatus__icons-block">
                         <div className="postStatus__share">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="#378fe9" className="postStatus__photo-icon icon" width="24" height="24" focusable="false">
                                 <path d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z"></path>
@@ -100,7 +104,7 @@ export default function PostStatus({currentUser}) {
                             </svg>
                             <span className="postStatus__photo-span span">Write article</span>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <ModalComponent
@@ -111,6 +115,11 @@ export default function PostStatus({currentUser}) {
                 sendStatus={sendStatus} 
                 isEdit={isEdit} 
                 updateStatus={updateStatus}
+                postImageUpload={postImageUpload}
+                setPostImage={setPostImage}
+                postImage={postImage}
+                currentPost={currentPost}
+                setCurrentPost={setCurrentPost}
             />
             <div className="postStatus__posts postStatus__container">
                 {allStatuses

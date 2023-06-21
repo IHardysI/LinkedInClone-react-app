@@ -144,7 +144,7 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                     viewBox="0 0 16 16"
                     data-supported-dps="16x16"
                     fill="gray"
-                    class="mercado-match"
+                    className="mercado-match"
                     width="16"
                     height="16"
                     focusable="false"
@@ -169,7 +169,7 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                     viewBox="0 0 16 16"
                     data-supported-dps="16x16"
                     fill="gray"
-                    class="mercado-match"
+                    className="mercado-match"
                     width="16"
                     height="16"
                     focusable="false"
@@ -189,7 +189,7 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                     viewBox="0 0 16 16"
                     data-supported-dps="16x16"
                     fill="gray"
-                    class="mercado-match"
+                    className="mercado-match"
                     width="16"
                     height="16"
                     focusable="false"
@@ -202,8 +202,6 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
         userBackIf = <></>;
     }
 
-    console.log(currentUser);
-    console.log(currentProfile);
 
     let userBack
     if (Object.values(currentProfile).length === 0 && currentUser.BackLink){
@@ -329,8 +327,8 @@ export default function ProfileCard({ currentUser, handleEdit, goToRoute }) {
                     <h2 className="profileCard__skills">Skills</h2>
                     <p className="profileCard__about-p">
                         {Object.values(currentProfile).length === 0
-                            ? currentUser.about
-                            : currentProfile?.about}
+                            ? currentUser.skills
+                            : currentProfile?.skills}
                     </p>
                 </div>
 

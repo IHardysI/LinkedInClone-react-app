@@ -152,10 +152,10 @@ export const getComments = (postID, setAllComments) => {
 }
 
 
-export const updatePost = (id, status) => {
+export const updatePost = (id, status, statusImage) => {
     let postToUpdate = doc(postsRef, id)
     try {
-        updateDoc(postToUpdate, { status })
+        updateDoc(postToUpdate, { status, statusImage })
         toast.success('Post was updated')
     } catch (error) {
         console.log(error);

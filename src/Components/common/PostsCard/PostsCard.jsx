@@ -5,6 +5,7 @@ import LikeBtn from "../LikeBtn/LikeBtn";
 import { getCurrentUser, getUsers, deletePost, getConnections } from '../../../api/StoreAPI'
 import defaultUserImage from '../../../assets/user-icon.svg'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { Button, Modal } from 'antd'
 
 
 export default function PostsCard({ posts, currentUser, getEditData }) {
@@ -12,6 +13,8 @@ export default function PostsCard({ posts, currentUser, getEditData }) {
     const [likesNumb, setLikesNumb] = useState()
     const [allUsers, setAllUsers] = useState([])
     const [isConnected, setIsConnected] = useState(false)
+    const [imageModal, setImageModal] = useState(false)
+    const [modalOpen, setModalOpen] = useState(false)
 
 
     useMemo(() => {
@@ -31,7 +34,7 @@ export default function PostsCard({ posts, currentUser, getEditData }) {
     
 
     return (
-        isConnected ? 
+        isConnected || currentUser.id === posts.userID  ? 
         <div className="postsCard">
             <div className="postCard__info" >
                 <img
@@ -78,7 +81,11 @@ export default function PostsCard({ posts, currentUser, getEditData }) {
                     <></>
                 }
             </div>
-            <p className="postCard__p">{posts.status}</p>
+            <p
+                className="postCard__p"
+                dangerouslySetInnerHTML={{ __html: posts.status }}
+            ></p>
+            {posts.statusImage ? <img onClick={() => setModalOpen(true)} src={posts.statusImage} alt="postImage" className="postCard__image" /> : <></>}
             {likesNumb !== 0
                 ?
                     <div className="postsCard__likes" >
@@ -92,6 +99,20 @@ export default function PostsCard({ posts, currentUser, getEditData }) {
             }
             <hr className="postsCard__hr" />
             <LikeBtn passLikeNumb={passLikeNumb}  userID={currentUser?.id} postID={posts?.id} currentUser={currentUser}/>
+
+            <Modal
+                title="Preview"
+                centered
+                open={modalOpen}
+                onOk={() => setModalOpen(false)}
+                onCancel={() => setModalOpen(false)}
+                footer={
+                    <Button key="Close" onClick={() => setModalOpen(false)}>
+                        Close
+                    </Button>}
+            >
+                <img src={posts?.statusImage} alt="postImage" className="postsCard__modal__img" />
+            </Modal>
         </div> : (<></>)
     )
 }

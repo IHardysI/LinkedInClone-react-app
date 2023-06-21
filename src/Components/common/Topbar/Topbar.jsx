@@ -1,42 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './Topbar.scss'
 import LinkedinLogo from '../../../assets/linkedinLogo.png'
 import { useNavigate } from "react-router-dom";
 import userIcon from '../../../assets/user-icon.svg'
 import ProfilePopup from "../ProfilePopup/ProfilePopup";
 import ProfileCard from "../ProfileCard/ProfileCard";
+import { getUsers } from "../../../api/StoreAPI";
+import Search from "../Search/Search";
 
-
-function handleMenu() {
-    const burger = document.querySelector('.topbar__burger') 
-    const menu = document.querySelector('.topbar__menu')
-    burger.classList.toggle('active')
-    menu.classList.toggle('active')
-}
-
-function input() {
-    const input = document.querySelector('.topbar__search-input')
-    const burger = document.querySelector('.topbar__burger') 
-    const menu = document.querySelector('.topbar__menu')
-    if(input === document.activeElement) {
-        burger.classList.remove('active')
-        menu.classList.remove('active')
-    }
-}
 
 export default function Topbar({ currentUser }) {
     const [focused, setFocused] = useState(false)
+    const [searchInput, setSearchInput] = useState('')
+    const [users, setUsers] = useState([])
+    const [searched, setSearched] = useState([])
+    const [inputClicked, setInputClicked] = useState(false)
+    
+    
 
 
     const handleClick = () => {
-        setFocused(!focused);
+        setFocused(true);
     }
     
     const handleBlur = () => {
-        setFocused(false);
+        setTimeout(() => {
+            setFocused(false)
+        }, 100)
     }
 
+    function handleMenu() {
+        const burger = document.querySelector('.topbar__burger') 
+        const menu = document.querySelector('.topbar__menu')
+        burger.classList.toggle('active')
+        menu.classList.toggle('active')
+    }
+    
+    function input() {
+        const input = document.querySelector('.topbar__search-input')
+        const burger = document.querySelector('.topbar__burger') 
+        const menu = document.querySelector('.topbar__menu')
+        setInputClicked(true)
+        if(inputClicked) {
+            burger.classList.remove('active')
+            menu.classList.remove('active')
+        }
+    }
 
+    
 
     function inputFocus() {
         let input = document.querySelector('.topbar__search-input')
@@ -47,17 +58,87 @@ export default function Topbar({ currentUser }) {
         navigate(route)
     }
 
+
+    useEffect(() => {
+        getUsers(setUsers)
+    }, [])
+
+    const emptyField = () => {
+        setSearched([])
+    }
+
+    const handleSearch = () => {
+        if (searchInput !== '') {
+            let searchResponse = users.filter((user) => {
+                return Object.values(user).join('').toLowerCase().includes(searchInput.toLowerCase())
+            })
+    
+            setSearched(searchResponse)
+        } else {
+            setSearched(users)
+        }
+    }
+
+    useEffect(() => {
+        let debounced = setTimeout(() => {
+            handleSearch()
+        }, 500);
+    
+        return () => clearTimeout(debounced);
+        }, [searchInput])
+
+
+        const openUser = (user) => {
+            setSearchInput('')
+            navigate('/profile', {state: {
+                id: user.id, email: user.email
+            }})
+        }
+
+
     return (
         <div className="topbar">
             <div className="topbar__block">
                 <img className="topbar__logo" src={LinkedinLogo} alt="Logo" width={'41px'} onClick={() => navigate('/')}/>
-                <form className="topbar__search">
+                <Search
+                    setSearchInput={setSearchInput}
+                    setInputClicked={setInputClicked}
+                    inputClicked={inputClicked}
+                />
+                {inputClicked ? (searchInput.length === 0 ? <></> : 
+                        <div className="search-results"> 
+                            {searched.map((user) => {
+                                return <div onClick={() => {openUser(user)}} className="results__item" key={user.id}>
+                                        <img className="results__icon" src={user.imageLink} alt="user-icon" />
+                                        <p className="results__name">{user.name}</p>
+                                </div>
+                            })}
+                        </div>) : <></>}
+                {/* <form tabIndex="-1" className="topbar__search">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="gray" className="topbar__search-icon" width="21" height="21" focusable="false" onClick={inputFocus}>
                         <path d="M21.41 18.59l-5.27-5.28A6.83 6.83 0 0017 10a7 7 0 10-7 7 6.83 6.83 0 003.31-.86l5.28 5.27a2 2 0 002.82-2.82zM5 10a5 5 0 115 5 5 5 0 01-5-5z"></path>
                     </svg>
-                    <input onClick={input} type="text" className="topbar__search-input" placeholder="Search" />
-                </form>
-                <div className="topbar__menu">
+                    <input onFocus={() => {getUsers(setUsers)}} onBlur={emptyField} onClick={input} type="text" className="topbar__search-input" placeholder="Search" onChange={(event) => setSearchInput(event.target.value)} />
+                    {searchInput.length === 0 ? <></> : 
+                    <div className="topbar__search-results"> 
+                        {searched.map((user) => {
+                            return <div onMouseDown={() => {openUser(user)}} className="results__item" key={user.id}>
+                                <img className="results__icon" src={user.imageLink} alt="user-icon" />
+                                <p className="results__name">{user.name}</p>
+                            </div>
+                        })}
+                    </div>}
+                    {searchInput.length === 0 ? <></> : 
+                        <div className="topbar__search-results"> 
+                            {searched.map((user) => {
+                                return <div onClick={() => {openUser(user)}} className="results__item" key={user.id}>
+                                    <img className="results__icon" src={user.imageLink} alt="user-icon" />
+                                    <p className="results__name">{user.name}</p>
+                                </div>
+                            })}
+                        </div>}
+                </form> */}
+                <div className={!inputClicked ? "topbar__menu" : "topbar__menu clicked"}>
                     <div className="topbar__home topbar__common" onClick={() => goToRoute('/home')}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="gray" className="topbar__home-icon topbar__icon" width="24" height="24" focusable="false">
                             <path d="M23 9v2h-2v7a3 3 0 01-3 3h-4v-6h-4v6H6a3 3 0 01-3-3v-7H1V9l11-7 5 3.18V2h3v5.09z"></path>
@@ -99,11 +180,11 @@ export default function Topbar({ currentUser }) {
                     </div>
                     
                 </div>
-                <div className="topbar__burger" onClick={handleMenu}>
+                {!inputClicked ? <div className="topbar__burger" onClick={handleMenu}>
                     <span className="topbar__bar"></span>
                     <span className="topbar__bar"></span>
                     <span className="topbar__bar"></span>
-                </div>
+                </div> : <></>}
             </div>
 
             

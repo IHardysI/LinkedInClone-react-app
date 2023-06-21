@@ -3,6 +3,7 @@ import './ConnectedUsers.scss'
 import defaultBack from '../../../assets/defaultBack.svg'
 import defaultUserIcon from '../../../assets/user-icon.svg'
 import { getConnections, unfollowConnection } from "../../../api/StoreAPI";
+import { useNavigate } from "react-router-dom";
 
 export default function ConnectedUsers({ user, getCurrentUser, currentUser }) {
     const [isConnected, setIsConnected] = useState(false)
@@ -11,7 +12,7 @@ export default function ConnectedUsers({ user, getCurrentUser, currentUser }) {
         getConnections(currentUser.id, user.id, setIsConnected)
     }, [currentUser.id, user.id])
 
-    console.log(user);
+    const navigate = useNavigate()
 
     return (
         isConnected ? 
@@ -27,3 +28,5 @@ export default function ConnectedUsers({ user, getCurrentUser, currentUser }) {
         </div> : <></>
     )
 }
+
+
